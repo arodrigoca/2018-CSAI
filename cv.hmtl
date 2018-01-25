@@ -5,7 +5,10 @@
         <title></title>
     </head>
     <body>
-        <h1>hola</hola>
+        <h1>Un título</h1>
+        <h2>Otro título</h2>
         <p>Esto es una prueba</p>
+        <a href="https://www.w3schools.com">This is a link</a>
+        <tagname>HOLA</tagname> 
     </body>
 </html>
