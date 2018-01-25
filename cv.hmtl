@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title></title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <h1>Adrián Rodrigo Castillo</h1>
@@ -37,10 +38,11 @@
         <p>-Titúlo de idioma Inglés TOEIC.</p>
         <h3>Otros datos de interés y proyectos</h3>
         <p>-Proyecto actual: IEEE Delorean diseño e implementación de un vehículo autónomo a pequeña escala:</p>
-        <p>https://github.com/TheRoboticsClub/2015-ieee-delorean</p>
-        <p>http://jderobot.org/Ieee-delorean</p>
+        <a href='https://github.com/TheRoboticsClub/2015-ieee-delorean'>https://github.com/TheRoboticsClub/2015-ieee-delorean </a>
+        <p></p>
+        <a href='http://jderobot.org/Ieee-delorean'>http://jderobot.org/Ieee-delorean </a>
         <p>Proyecto de documentación para calibración y mejora de impresoras 3D tipo Delta.</p>
-        <p>https://github.com/arodrigoca/Anycubic-Kossel---Delta-printer-calibration</p>
+        <a href='https://github.com/arodrigoca/Anycubic-Kossel---Delta-printer-calibration'>https://github.com/arodrigoca/Anycubic-Kossel---Delta-printer-calibration</a>
 
     </body>
 </html>
