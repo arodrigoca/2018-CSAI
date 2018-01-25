@@ -12,5 +12,35 @@
         <p>Avenida de las Estrellas 17 Bajo C, Parla 28983 Madrid</p>
         <p>https://github.com/arodrigoca</p>
         <a href="https://github.com/arodrigoca">GitHub</a>
+        <h3>Formación académica</h3>
+        <p>-Bachillerato de Ciencias y Tecnologías en IES El Olivo, Parla, Madrid.</p>
+        <p>-Grado en Ingeniería de sistemas audiovisuales y multimedia, Universidad Rey Juan Carlos.</p>
+        <p>-Curso de captación y adecuación de sonido CUESA.</p>
+        <h3>Habilidades, capacidades y conocimientos</h3>
+        <p>-Conocimientos de telecomunicaciones(Redes móviles, Internet, televisión, etc).</p>
+        <p>-Conocimientos de electrónica digital y analógica.
+        <p>-Conocimientos sobre acústica ambiental y de recintos.</p>
+        <p>-Conocimientos sobre señales y sistemas.</p>
+        <p>-Conocimientos sobre tratamiento digital de sonido e imagen.</p>
+        <p>-Diseño de proyectos con microtrontroladores y ordenadores de bajo coste (Arduino, Raspberry Pi).</p>
+        <p>-Capacidad avanzada de diseño y montaje de equipos informáticos.</p>
+        <p>-Conocimiento avanzado de impresión 3D.</p>
+        <h3>Conocimientos informáticos</h3>
+        <p>Manejo de software de impresión 3D (Cura, Slic3r, PronterFace).</p>
+        <p>Manejo de software de diseño 3D (FreeCad).</p>
+        <p>-Sistemas operativos Linux y Windows a nivel de usuario.</p>
+        <p>-Programación en diversos lenguajes: Python, Javascript, ADA, Picky, C++, Arduino, ROS.</p>
+        <p>-Lenguajes de marcado: HTML5, CSS.</p>
+        <h3>Idiomas</h3>
+        <p>-Español nativo, hablado y escrito.</p>
+        <p>-Inglés hablado y escrito, nivel intermedio.</p>
+        <p>-Titúlo de idioma Inglés TOEIC.</p>
+        <h3>Otros datos de interés y proyectos</h3>
+        <p>-Proyecto actual: IEEE Delorean diseño e implementación de un vehículo autónomo a pequeña escala:</p>
+        <p>https://github.com/TheRoboticsClub/2015-ieee-delorean</p>
+        <p>http://jderobot.org/Ieee-delorean</p>
+        <p>Proyecto de documentación para calibración y mejora de impresoras 3D tipo Delta.</p>
+        <p>https://github.com/arodrigoca/Anycubic-Kossel---Delta-printer-calibration</p>
+
     </body>
 </html>
