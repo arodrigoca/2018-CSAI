@@ -1,0 +1,20 @@
+#demo {
+    color:blue;
+}
+
+#canvas2D{
+    padding-left: 0;
+    padding-right: 0;
+    background-color:blue;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+#header1{
+    text-align: center;
+}
+
+#timer{
+    text-align: center;
+}
