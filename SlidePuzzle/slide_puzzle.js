@@ -28,11 +28,12 @@ function initPuzzle()
 
 function drawPuzzle(pieces, tileSize, img){
 
+  context.clearRect(0, 0, canvas.width, canvas.height);
   for(var i = 0; i < ntiles; i++){
     for(var z = 0; z < ntiles; z++){
       var xloc = pieces[i][z].x;
       var yloc = pieces[i][z].y;
-      if(i != 0 || z != 0){
+      if(i != blankPiece[0] || z != blankPiece[1]){
         context.drawImage(img, i * tileSize, z * tileSize, tileSize, tileSize,
               xloc * tileSize, yloc * tileSize, tileSize, tileSize);
       }
@@ -48,7 +49,7 @@ function startGame()
   var img = new Image();
   img.src = 'rsz_1optimus.jpg';
   var pieces = initPuzzle();
-  registerMouse(pieces);
+  registerMouse(pieces, img);
   drawPuzzle(pieces, tileSize, img);
 }
 
@@ -79,11 +80,25 @@ function mapMouse(mouseX, mouseY){
   return [mappedX, mappedY];
 }
 
-function movePiece(){
-  ;
+function movePiece(pieces, mappedMouse, img){
+
+  var xdistance = Math.abs(mappedMouse[0] - blankPiece[0]);
+  var ydistance = Math.abs(mappedMouse[1] - blankPiece[1]);
+  var distance = xdistance + ydistance;
+  if(distance == 1){
+    pieces[blankPiece[0]][blankPiece[1]].x = pieces[mappedMouse[0]][mappedMouse[1]].y;
+    pieces[blankPiece[0]][blankPiece[1]].y = pieces[mappedMouse[0]][mappedMouse[1]].y;
+    console.log('poner la pieza que estaba en');
+    console.log(mappedMouse);
+    console.log('en');
+    console.log(blankPiece);
+    blankPiece[0] = mappedMouse[0];
+    blankPiece[1] = mappedMouse[1];
+    drawPuzzle(pieces, tileSize, img);
+  }
 }
 
-function registerMouse(pieces){
+function registerMouse(pieces, img){
 
   document.getElementById('canvas2D').onclick = function(e) {
 
@@ -94,7 +109,7 @@ function registerMouse(pieces){
     mouseX = e.pageX - this.offsetLeft;
     mouseY = e.pageY - this.offsetTop;
     mappedMouse = mapMouse(mouseX, mouseY);
-    movePiece(pieces);
+    movePiece(pieces, mappedMouse, img);
   }
 
 }
