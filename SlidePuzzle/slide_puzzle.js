@@ -1,5 +1,5 @@
 var ntiles = 3;
-var blankPiece = [0, 0];
+var blankPiece = [2, 2];
 var solved = false;
 var tileSize = 0;
 
@@ -20,7 +20,10 @@ function initPuzzle()
       pieces[i][z].x = (ntiles - 1) - i;
       pieces[i][z].y = (ntiles - 1) - z;
     }
+
     solved = false;
+    blankPiece[0] = 0;
+    blankPiece[1] = 0;
   }
   return pieces;
 }
@@ -32,7 +35,7 @@ function drawPuzzle(pieces, tileSize, img){
     for(var z = 0; z < ntiles; z++){
       var xloc = pieces[i][z].x;
       var yloc = pieces[i][z].y;
-      if(i != 2 || z != 2){
+      if(xloc != 0 || yloc != 0){
         context.drawImage(img, i * tileSize, z * tileSize, tileSize, tileSize,
               xloc * tileSize, yloc * tileSize, tileSize, tileSize);
       }
@@ -46,7 +49,7 @@ function startGame()
   tileSize = canvas.width/ntiles;
   context = canvas.getContext('2d');
   var img = new Image();
-  img.src = 'rsz_1optimus.jpg';
+  img.src = 'numbers.jpg';
   var pieces = initPuzzle();
   registerMouse(pieces, img);
   drawPuzzle(pieces, tileSize, img);
@@ -79,12 +82,28 @@ function mapMouse(mouseX, mouseY){
   return [mappedX, mappedY];
 }
 
-function findPieceLocation(pieces, xToFind, yToFind){
+function pieceLocation(pieces, xFind, yFind){
 
-    for(i = 0; i < ntiles; i++){
+  var xloc = 0;
+  var yloc = 0;
 
-        if;
+  for(i = 0; i < ntiles; i++){
+    for(z = 0; z < ntiles; z++){
+      if(pieces[i][z].y == yFind){
+        console.log('coordenada y');
+        console.log(z);
+        yloc = z;
+        break;
+      }
     }
+    if(pieces[i][z].x == xFind){
+      console.log('coordenada x');
+      console.log(i);
+      xloc = i;
+      break;
+    }
+  }
+  return [xloc, yloc];
 }
 
 function movePiece(pieces, mappedMouse, img){
@@ -93,15 +112,17 @@ function movePiece(pieces, mappedMouse, img){
   var ydistance = Math.abs(mappedMouse[1] - blankPiece[1]);
   var distance = xdistance + ydistance;
   if(distance == 1){
-    pieces[blankPiece[0]][blankPiece[1]].x = pieces[mappedMouse[0]][mappedMouse[1]].y;
-    pieces[blankPiece[0]][blankPiece[1]].y = pieces[mappedMouse[0]][mappedMouse[1]].y;
-    var xloc = blankPiece[0];
-    var yloc = blankPiece[1];
+    var pieceToMove = pieceLocation(pieces, mappedMouse[0], mappedMouse[1]);
+    pieces[pieceToMove[0]][pieceToMove[1]].x = blankPiece[0];
+    pieces[pieceToMove[0]][pieceToMove[1]].y = blankPiece[1];
+    var toX = blankPiece[0];
+    var toY = blankPiece[1];
     blankPiece[0] = mappedMouse[0];
     blankPiece[1] = mappedMouse[1];
+    //drawPuzzle(pieces, tileSize, img);
     context.clearRect(blankPiece[0]*tileSize, blankPiece[1]*tileSize, tileSize, tileSize);
-    context.drawImage(img, i * tileSize, z * tileSize, tileSize, tileSize,
-          xloc * tileSize, yloc * tileSize, tileSize, tileSize);
+    context.drawImage(img, pieceToMove[0] * tileSize, pieceToMove[1] * tileSize, tileSize, tileSize,
+          toX * tileSize, toY * tileSize, tileSize, tileSize);
   }
 }
 
