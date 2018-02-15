@@ -5,7 +5,7 @@ var tileSize = 0;
 
 function printSomething()
 {
-    var aux = parseInt(document.getElementById("timer").innerHTML)
+    var aux = parseInt(document.getElementById("timer").innerHTML);
     aux = aux + 1;
     document.getElementById("timer").innerHTML = aux;
 }
@@ -20,7 +20,6 @@ function initPuzzle()
       pieces[i][z].x = (ntiles - 1) - i;
       pieces[i][z].y = (ntiles - 1) - z;
     }
-    blankPiece = [0, 0];
     solved = false;
   }
   return pieces;
@@ -33,7 +32,7 @@ function drawPuzzle(pieces, tileSize, img){
     for(var z = 0; z < ntiles; z++){
       var xloc = pieces[i][z].x;
       var yloc = pieces[i][z].y;
-      if(i != blankPiece[0] || z != blankPiece[1]){
+      if(i != 2 || z != 2){
         context.drawImage(img, i * tileSize, z * tileSize, tileSize, tileSize,
               xloc * tileSize, yloc * tileSize, tileSize, tileSize);
       }
@@ -80,6 +79,14 @@ function mapMouse(mouseX, mouseY){
   return [mappedX, mappedY];
 }
 
+function findPieceLocation(pieces, xToFind, yToFind){
+
+    for(i = 0; i < ntiles; i++){
+
+        if;
+    }
+}
+
 function movePiece(pieces, mappedMouse, img){
 
   var xdistance = Math.abs(mappedMouse[0] - blankPiece[0]);
@@ -88,13 +95,13 @@ function movePiece(pieces, mappedMouse, img){
   if(distance == 1){
     pieces[blankPiece[0]][blankPiece[1]].x = pieces[mappedMouse[0]][mappedMouse[1]].y;
     pieces[blankPiece[0]][blankPiece[1]].y = pieces[mappedMouse[0]][mappedMouse[1]].y;
-    console.log('poner la pieza que estaba en');
-    console.log(mappedMouse);
-    console.log('en');
-    console.log(blankPiece);
+    var xloc = blankPiece[0];
+    var yloc = blankPiece[1];
     blankPiece[0] = mappedMouse[0];
     blankPiece[1] = mappedMouse[1];
-    drawPuzzle(pieces, tileSize, img);
+    context.clearRect(blankPiece[0]*tileSize, blankPiece[1]*tileSize, tileSize, tileSize);
+    context.drawImage(img, i * tileSize, z * tileSize, tileSize, tileSize,
+          xloc * tileSize, yloc * tileSize, tileSize, tileSize);
   }
 }
 
