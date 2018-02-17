@@ -90,17 +90,9 @@ function pieceLocation(pieces, xFind, yFind){
   for(i = 0; i < ntiles; i++){
     for(z = 0; z < ntiles; z++){
       if(pieces[i][z].y == yFind){
-        console.log('coordenada y');
-        console.log(z);
         yloc = z;
         break;
       }
-    }
-    if(pieces[i][z].x == xFind){
-      console.log('coordenada x');
-      console.log(i);
-      xloc = i;
-      break;
     }
   }
   return [xloc, yloc];
@@ -113,6 +105,10 @@ function movePiece(pieces, mappedMouse, img){
   var distance = xdistance + ydistance;
   if(distance == 1){
     var pieceToMove = pieceLocation(pieces, mappedMouse[0], mappedMouse[1]);
+    console.log('move piece: ');
+    console.log(pieceToMove);
+    console.log('to location: ');
+    console.log(blankPiece);
     pieces[pieceToMove[0]][pieceToMove[1]].x = blankPiece[0];
     pieces[pieceToMove[0]][pieceToMove[1]].y = blankPiece[1];
     var toX = blankPiece[0];
