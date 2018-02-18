@@ -86,13 +86,19 @@ function pieceLocation(pieces, xFind, yFind){
 
   var xloc = 0;
   var yloc = 0;
+  var found = false;
 
-  for(i = 0; i < ntiles; i++){
-    for(z = 0; z < ntiles; z++){
-      if(pieces[i][z].y == yFind){
+  for(var i = 0; i < ntiles; i++){
+    for(var z = 0; z < ntiles; z++){
+      if(pieces[i][z].x == xFind && pieces[i][z].y == yFind){
+        xloc = i;
         yloc = z;
+        found = true;
         break;
       }
+    }
+    if(found){
+      break;
     }
   }
   return [xloc, yloc];
@@ -105,10 +111,10 @@ function movePiece(pieces, mappedMouse, img){
   var distance = xdistance + ydistance;
   if(distance == 1){
     var pieceToMove = pieceLocation(pieces, mappedMouse[0], mappedMouse[1]);
-    console.log('move piece: ');
-    console.log(pieceToMove);
-    console.log('to location: ');
-    console.log(blankPiece);
+    //console.log('move piece: ');
+    //console.log(pieceToMove);
+    //console.log('to location: ');
+    //console.log(blankPiece);
     pieces[pieceToMove[0]][pieceToMove[1]].x = blankPiece[0];
     pieces[pieceToMove[0]][pieceToMove[1]].y = blankPiece[1];
     var toX = blankPiece[0];
@@ -120,6 +126,22 @@ function movePiece(pieces, mappedMouse, img){
     context.drawImage(img, pieceToMove[0] * tileSize, pieceToMove[1] * tileSize, tileSize, tileSize,
           toX * tileSize, toY * tileSize, tileSize, tileSize);
   }
+}
+
+function checkSolved(pieces){
+
+  var solved = true;
+
+  for(var i = 0; i < ntiles; i++){
+    for(var z = 0; z < ntiles; z++){
+      if(pieces[i][z].x != 0 && pieces[i][z].y != 0){
+        if(pieces[i][z].x != i || pieces[i][z].y != z){
+          solved = false;
+        }
+      }
+    }
+  }
+  return solved;
 }
 
 function registerMouse(pieces, img){
@@ -134,6 +156,9 @@ function registerMouse(pieces, img){
     mouseY = e.pageY - this.offsetTop;
     mappedMouse = mapMouse(mouseX, mouseY);
     movePiece(pieces, mappedMouse, img);
+    if(checkSolved(pieces)){
+      setTimeout(function() {alert("You solved it!");}, 500);
+    }
   }
 
 }
