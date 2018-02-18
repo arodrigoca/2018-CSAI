@@ -163,6 +163,11 @@ function registerMouse(pieces, img){
 
 }
 
+function changePhoto(){
+  startGame();
+  document.getElementById("timer").innerHTML = 0;
+}
+
 function main()
 {
     document.getElementById("timer").innerHTML = 0;

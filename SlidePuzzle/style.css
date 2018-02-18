@@ -18,3 +18,12 @@
 #timer{
     text-align: center;
 }
+
+#changePhoto{
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  height: 200;
+  width: 200;
+}
