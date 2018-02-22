@@ -43,13 +43,23 @@ function drawPuzzle(pieces, tileSize, img){
   }
 }
 
-function startGame()
+function clickChangeImage(){
+    imageDict = document.getElementsByClassName("mySlides");
+    startGame(false, imageDict[0]);
+}
+
+function startGame(init, image)
 {
   canvas = document.getElementById('canvas2D');
   tileSize = canvas.width/ntiles;
   context = canvas.getContext('2d');
-  var img = new Image();
-  img.src = 'numbers.jpg';
+  if(init){
+      var img = document.getElementById('puzzleImage');
+  }else{
+      var img = image;
+  }
+  //img.width = 510;
+  //img.height = 510;
   var pieces = initPuzzle();
   registerMouse(pieces, img);
   drawPuzzle(pieces, tileSize, img);
@@ -172,5 +182,5 @@ function main()
 {
     document.getElementById("timer").innerHTML = 0;
     var timedFunction = setInterval(printSomething, 1000);
-    startGame();
+    startGame(true);
 }
