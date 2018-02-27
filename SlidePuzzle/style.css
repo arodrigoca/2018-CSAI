@@ -21,27 +21,17 @@
 
 .mySlides{
     display:none;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
-    display: block;
+    position: absolute;
+    left: 40%;
 }
 
 .mySlides2{
     display:none;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
-    display: block;
+    position: absolute;
+    left: 47%;
 }
 
-.mySlide3{
+.mySlides3{
     display:none;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 0;
-    padding-right: 0;
-    display: block;
+    margin-left: 855px;
 }
