@@ -43,9 +43,12 @@ function drawPuzzle(pieces, tileSize, img){
   }
 }
 
-function clickChangeImage(){
+function clickChangeImage(element){
     imageDict = document.getElementsByClassName("mySlides");
-    startGame(false, imageDict[0]);
+    var img = new Image();
+    img.src = element.src;
+    document.getElementById("timer").innerHTML = 0;
+    startGame(false, img);
 }
 
 function startGame(init, image)
@@ -154,6 +157,13 @@ function checkSolved(pieces){
   return solved;
 }
 
+function endGame(img){
+  setTimeout(function() {alert("You solved it!");}, 500);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(img, 0, 0, canvas.width, canvas.height,
+        0, 0, canvas.width, canvas.height);
+}
+
 function registerMouse(pieces, img){
 
   document.getElementById('canvas2D').onclick = function(e) {
@@ -167,7 +177,7 @@ function registerMouse(pieces, img){
     mappedMouse = mapMouse(mouseX, mouseY);
     movePiece(pieces, mappedMouse, img);
     if(checkSolved(pieces)){
-      setTimeout(function() {alert("You solved it!");}, 500);
+      endGame(img);
     }
   }
 
