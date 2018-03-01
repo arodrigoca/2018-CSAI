@@ -3,9 +3,15 @@ var blankPiece = [2, 2];
 var solved = false;
 var tileSize = 0;
 
+function timerObject(){
+
+    this.id = 0;
+    this.value = 0;
+}
+
 function printSomething()
 {
-    var aux = parseInt(document.getElementById("timer").innerHTML);
+    var aux = parseInt(document.getElementById("timer").innerHTML);document.getElementById("timer").innerHTML
     aux = aux + 1;
     document.getElementById("timer").innerHTML = aux;
 }
@@ -53,11 +59,14 @@ function clickChangeImage(element){
 
 function startGame(init, image)
 {
+
+  timer = new timerObject();
+
   canvas = document.getElementById('canvas2D');
   tileSize = canvas.width/ntiles;
   context = canvas.getContext('2d');
   if(init){
-      var img = document.getElementById('puzzleImage');
+      var img = document.getElementById('initImage');
   }else{
       var img = image;
   }
@@ -184,13 +193,18 @@ function registerMouse(pieces, img){
 }
 
 function changePhoto(){
-  startGame();
+  startGame(false);
   document.getElementById("timer").innerHTML = 0;
 }
 
 function main()
 {
+    var obj = {"nissan": "sentra", "color": "green"};
+    localStorage.setItem('userStorage', JSON.stringify(obj));
+    var texto = JSON.parse(localStorage.getItem('userStorage'));
+    console.log(texto);
+    timer = new timerObject();
     document.getElementById("timer").innerHTML = 0;
-    var timedFunction = setInterval(printSomething, 1000);
+    timedFunction = setInterval(printSomething, 1000);
     startGame(true);
 }

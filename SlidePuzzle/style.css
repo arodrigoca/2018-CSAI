@@ -33,5 +33,8 @@
 
 .mySlides3{
     display:none;
-    margin-left: 855px;
+    position:relative;
+    display:block;
+    left:54%;
+
 }
