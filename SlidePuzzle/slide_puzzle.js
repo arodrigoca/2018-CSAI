@@ -166,8 +166,31 @@ function checkSolved(pieces){
   return solved;
 }
 
+function checkUserTimer(currentTime){
+
+    var texto = JSON.parse(localStorage.getItem('userStorage'));
+    var userTimer  = texto['timer'];
+    if(currentTime < userTimer || userTimer == '0'){
+        console.log('batiste el record!')
+        var obj = {'timer': currentTime};
+        localStorage.setItem('userStorage', JSON.stringify(obj));
+        return true;
+    }else{
+        return false;
+    }
+    console.log(currentTime + ' ' + userTimer);
+
+}
+
 function endGame(img){
-  setTimeout(function() {alert("You solved it!");}, 500);
+
+  if(checkUserTimer(document.getElementById("timer").innerHTML)){
+      var texto = JSON.parse(localStorage.getItem('userStorage'));
+      setTimeout(function() {alert("You beated your record! Your time is" + ' ' + texto['timer']);}, 500);
+  }else{
+      var texto = JSON.parse(localStorage.getItem('userStorage'));
+      setTimeout(function() {alert("You solved it! Your time is" + ' ' + texto['timer']);}, 500);
+  }
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.drawImage(img, 0, 0, canvas.width, canvas.height,
         0, 0, canvas.width, canvas.height);
@@ -199,10 +222,9 @@ function changePhoto(){
 
 function main()
 {
-    var obj = {"nissan": "sentra", "color": "green"};
+    var obj = {'timer': 0};
     localStorage.setItem('userStorage', JSON.stringify(obj));
     var texto = JSON.parse(localStorage.getItem('userStorage'));
-    console.log(texto);
     timer = new timerObject();
     document.getElementById("timer").innerHTML = 0;
     timedFunction = setInterval(printSomething, 1000);
