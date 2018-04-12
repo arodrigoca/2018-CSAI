@@ -43,9 +43,29 @@ function GameArea(){
         this.ctx.fillRect(140, 140, 40, 40);
         this.ctx.fillRect(50, 140, 40, 40);
 
+        this.ctx.fillRect(50+370, 50, 40, 40);
+        this.ctx.fillRect(140+370, 50, 40, 40);
+        this.ctx.fillRect(140+370, 140, 40, 40);
+        this.ctx.fillRect(50+370, 140, 40, 40);
+
+        this.ctx.fillRect(50+370, 50+370, 40, 40);
+        this.ctx.fillRect(140+370, 50+370, 40, 40);
+        this.ctx.fillRect(140+370, 140+370, 40, 40);
+        this.ctx.fillRect(50+370, 140+370, 40, 40);
+
+        this.ctx.fillRect(50, 50+370, 40, 40);
+        this.ctx.fillRect(140, 50+370, 40, 40);
+        this.ctx.fillRect(140, 140+370, 40, 40);
+        this.ctx.fillRect(50, 140+370, 40, 40);
+
+        this.ctx.fillRect(50, 235, 490, 30);
+        this.ctx.fillRect(50, 340, 490, 30);
+
+        this.ctx.fillRect(280, 50, 40, 135);
+        this.ctx.fillRect(280, 420, 40, 135);
         //-------------------------------
 
-        
+
 
     }
 }
