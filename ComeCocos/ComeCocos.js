@@ -75,7 +75,8 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.id = id;
     this.x = x;
     this.y = y;
-    this.speed = 0; //v
+    this.speedy = 0; //v
+    this.speedx = 0;
     this.angle = 0; //theta
     this.moveAngle = 0; //w
     var d = new Date();
@@ -108,23 +109,45 @@ function gameObject(id, x, y, img, ctx, canvas){
         var dt = now - this.tm;
         this.tm = now;
         this.angle = this.angle + (this.moveAngle*(dt/1000.0));
-        this.x = this.x + this.speed * Math.sin(this.angle)*(dt/1000.0);
-        this.y = this.y - this.speed * Math.cos(this.angle)*(dt/1000.0);
+        this.x = this.x + this.speedx
+        this.y = this.y - this.speedy
     }
 }
 
 function keyHandler(event, thing) { //Keyboard press detector
 
-  if(event.key == "ArrowLeft"){thing.x = thing.x-1;}
-  if(event.key == "ArrowRight"){thing.x = thing.x+1;}
-  if(event.key == "ArrowUp"){thing.y = thing.y-1;}
-  if(event.key == "ArrowDown"){thing.y = thing.y+1;}
-  thing.update();
-  thing.draw();
+  if(event.key == "ArrowLeft"){if(thing.speedx != -1.5){thing.speedx = thing.speedx-1.5;thing.speedy = 0;}}
+  if(event.key == "ArrowRight"){if(thing.speedx != 1.5){thing.speedx = thing.speedx+1.5;thing.speedy = 0;}}
+  if(event.key == "ArrowUp"){if(thing.speedy != 1.5){thing.speedy = thing.speedy+1.5;thing.speedx = 0;}}
+  if(event.key == "ArrowDown"){if(thing.speedy != -1.5){thing.speedy = thing.speedy-1.5;thing.speedx = 0;}}
+
 }
 
-function render(){
-    ;
+function render(myGameArea, thing, ctx, canvas){
+
+    myGameArea.clearCanvas();
+    myGameArea.buildWalls();
+    var x = thing.x;
+    var y = thing.y;
+    thing.draw();
+    thing.update();
+    var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+    var data = imageData.data;
+    var components = [
+    data[ ( y * imageData.width + x+60 ) * 4 + 2],
+    data[ ( y+60 * imageData.width + x ) * 4 + 2],
+    data[ ( y-60 * imageData.width + x ) * 4 + 2],
+    data[ ( y * imageData.width + x-60 ) * 4 + 2]
+    ];
+    console.log(components);
+}
+
+function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
 }
 
 function startGame() {
@@ -132,12 +155,12 @@ function startGame() {
     var canvas = document.getElementById("canvas2D");
     var ctx = canvas.getContext('2d');
     var myGameArea = new GameArea(ctx, canvas);
-    myGameArea.buildWalls();
-    var thing = new gameObject('thing', 225, 225, 'pacman.png', ctx, canvas);
-    thing.update();
-    thing.draw();
+    var thing = new gameObject('thing', 300, 300, 'pacman.png', ctx, canvas);
+    canvas.addEventListener('mousemove', function(evt) {
+      var mousePos = getMousePos(canvas, evt);
+    }, false);
     document.addEventListener('keydown', function(e){
         keyHandler(e, thing);
     }, false);
-    renderInterval = setInterval(render, 16);
+    renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas), 16);
 }
