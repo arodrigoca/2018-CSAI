@@ -114,12 +114,18 @@ function gameObject(id, x, y, img, ctx, canvas){
     }
 }
 
+function test(thing){
+  ;
+}
+
 function keyHandler(event, thing) { //Keyboard press detector
 
   if(event.key == "ArrowLeft"){if(thing.speedx != -1.5){thing.speedx = thing.speedx-1.5;thing.speedy = 0;}}
   if(event.key == "ArrowRight"){if(thing.speedx != 1.5){thing.speedx = thing.speedx+1.5;thing.speedy = 0;}}
   if(event.key == "ArrowUp"){if(thing.speedy != 1.5){thing.speedy = thing.speedy+1.5;thing.speedx = 0;}}
   if(event.key == "ArrowDown"){if(thing.speedy != -1.5){thing.speedy = thing.speedy-1.5;thing.speedx = 0;}}
+  if(event.key == " "){test(thing)}
+
 
 }
 
@@ -145,25 +151,32 @@ function render(myGameArea, thing, ctx, canvas){
       y = thing.y + thing.speedy + thing.width()/2;
       x = thing.x;
 
+    }else{
+      x = thing.x;
+      y = thing.y;
     }
 
-    thing.draw();
-    thing.update();
     var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
     var data = imageData.data;
     var components = [
     data[ ( y * imageData.width + x ) * 4 + 2]
     ];
 
+    //console.log('object is at', thing.x, thing.y);
+    //console.log('evaluate at', x, y);
+
     if(components[0] == 255){
       thing.speedx = 0;
       thing.speedy = 0;
       thing.x = thing.x;
       thing.y = thing.y;
-      //thing.x = 300;
-      //thing.y = 300;
       console.log('hola');
     }
+
+    thing.draw();
+    thing.update();
+
+
 }
 
 function getMousePos(canvas, evt) {
