@@ -127,19 +127,43 @@ function render(myGameArea, thing, ctx, canvas){
 
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
-    var x = thing.x;
-    var y = thing.y;
+    var x = 0;
+    var y = 0;
+    if(thing.speedx > 0){
+      x = thing.x + thing.speedx + thing.width()/2;
+      y = thing.y;
+
+    }else if(thing.speedx < 0 ){
+      x = thing.x - thing.speedx - thing.width()/2;
+      y = thing.y;
+
+    }else if(thing.speedy > 0 ){
+      y = thing.y - thing.speedy - thing.width()/2;
+      x = thing.x;
+
+    }else if(thing.speedy < 0 ){
+      y = thing.y + thing.speedy + thing.width()/2;
+      x = thing.x;
+
+    }
+
     thing.draw();
     thing.update();
     var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
     var data = imageData.data;
     var components = [
-    data[ ( y * imageData.width + x+60 ) * 4 + 2],
-    data[ ( y+60 * imageData.width + x ) * 4 + 2],
-    data[ ( y-60 * imageData.width + x ) * 4 + 2],
-    data[ ( y * imageData.width + x-60 ) * 4 + 2]
+    data[ ( y * imageData.width + x ) * 4 + 2]
     ];
-    console.log(components);
+
+    if(components[0] == 255){
+      thing.speedx = 0;
+      thing.speedy = 0;
+      thing.x = thing.x;
+      thing.y = thing.y;
+      //thing.x = 300;
+      //thing.y = 300;
+      console.log('hola');
+    }
 }
 
 function getMousePos(canvas, evt) {
