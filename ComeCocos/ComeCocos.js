@@ -125,7 +125,6 @@ function allowDrop(ev) {
 function drag_handler(ev) {
     //ev.dataTransfer.setData("text", ev.target.id);
     //ev.dataTransfer.dropEffect = "copy";
-    console.log(ev.target.id);
     thing.image = ev.target.src;
 }
 
