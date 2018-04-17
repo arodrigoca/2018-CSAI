@@ -8,8 +8,12 @@
     <body onload='startGame()'>
             <h1 id='header1'>Rough Pac-Man</h1>
             <script src='ComeCocos.js'></script>
-            <canvas id="canvas2D"></canvas>
+            <canvas id="canvas2D" ondrop="drop_handler(event)" ondragover="allowDrop(event)"></canvas>
             <audio loop autoplay src="theme.mp3">
             </audio>
+            <img id="pacman1" src="pacman1.png" draggable="true" ondragstart="drag_handler(event)" width="40" height="40">
+            </img>
+            <img id="pacman2" src="pacman1.png" draggable="true" ondragstart="drag_handler(event)" width="40" height="40">
+            </img>
     </body>
 </html>

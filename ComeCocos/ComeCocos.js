@@ -110,21 +110,74 @@ function gameObject(id, x, y, img, ctx, canvas){
         this.tm = now;
         this.angle = this.angle + (this.moveAngle*(dt/1000.0));
         this.x = this.x + this.speedx
-        this.y = this.y - this.speedy
+        this.y = this.y + this.speedy
     }
 }
 
-function test(thing){
-  ;
+///////////////////////drag and drop functions
+
+function allowDrop(ev) {
+    ev.preventDefault();
 }
 
-function keyHandler(event, thing) { //Keyboard press detector
+function drag_handler(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+    ev.dataTransfer.dropEffect = "copy";
+    console.log(ev.target.id);
+}
 
-  if(event.key == "ArrowLeft"){if(thing.speedx != -1.5){thing.speedx = thing.speedx-1.5;thing.speedy = 0;}}
-  if(event.key == "ArrowRight"){if(thing.speedx != 1.5){thing.speedx = thing.speedx+1.5;thing.speedy = 0;}}
-  if(event.key == "ArrowUp"){if(thing.speedy != 1.5){thing.speedy = thing.speedy+1.5;thing.speedx = 0;}}
-  if(event.key == "ArrowDown"){if(thing.speedy != -1.5){thing.speedy = thing.speedy-1.5;thing.speedx = 0;}}
-  if(event.key == " "){test(thing)}
+function drop_handler(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+    console.log('someone dropped something');
+}
+
+////////////////////////////
+
+function collisions(thing, myGameArea){
+
+  var x = 0;
+  var y = 0;
+  var radius = thing.width()/2;
+
+  if(thing.speedx > 0){
+      x = thing.x + radius;
+      y = thing.y;
+
+  }else if(thing.speedx < 0){
+    x = thing.x - radius;
+    y = thing.y;
+
+  }else if(thing.speedy > 0){
+    x = thing.x;
+    y = thing.y + radius;
+
+  }else if(thing.speedy < 0){
+    x = thing.x;
+    y = thing.y - radius;
+
+  }
+
+  var components = [
+  data[ ( y * imageData.width + x ) * 4 + 2]
+  ];
+  if(components[0] == 255){
+    thing.speedx = 0;
+    thing.speedy = 0;
+  }
+  myGameArea.clearCanvas();
+  myGameArea.buildWalls();
+  thing.draw();
+  thing.update();
+}
+
+function keyHandler(event, thing, myGameArea) { //Keyboard press detector
+
+  if(event.key == "ArrowLeft"){if(thing.speedx != -1){thing.speedx = thing.speedx-1;thing.speedy = 0;}}
+  if(event.key == "ArrowRight"){if(thing.speedx != 1){thing.speedx = thing.speedx+1;thing.speedy = 0;}}
+  if(event.key == "ArrowUp"){if(thing.speedy != -1){thing.speedy = thing.speedy-1;thing.speedx = 0;}}
+  if(event.key == "ArrowDown"){if(thing.speedy != 1){thing.speedy = thing.speedy+1;thing.speedx = 0;}}
 
 
 }
@@ -133,46 +186,7 @@ function render(myGameArea, thing, ctx, canvas){
 
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
-    var x = 0;
-    var y = 0;
-    if(thing.speedx > 0){
-      x = thing.x + thing.speedx + thing.width()/2;
-      y = thing.y;
-
-    }else if(thing.speedx < 0 ){
-      x = thing.x - thing.speedx - thing.width()/2;
-      y = thing.y;
-
-    }else if(thing.speedy > 0 ){
-      y = thing.y - thing.speedy - thing.width()/2;
-      x = thing.x;
-
-    }else if(thing.speedy < 0 ){
-      y = thing.y + thing.speedy + thing.width()/2;
-      x = thing.x;
-
-    }else{
-      x = thing.x;
-      y = thing.y;
-    }
-
-    var imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
-    var data = imageData.data;
-    var components = [
-    data[ ( y * imageData.width + x ) * 4 + 2]
-    ];
-
-    //console.log('object is at', thing.x, thing.y);
-    //console.log('evaluate at', x, y);
-
-    if(components[0] == 255){
-      thing.speedx = 0;
-      thing.speedy = 0;
-      thing.x = thing.x;
-      thing.y = thing.y;
-      console.log('hola');
-    }
-
+    collisions(thing, myGameArea);
     thing.draw();
     thing.update();
 
@@ -193,11 +207,18 @@ function startGame() {
     var ctx = canvas.getContext('2d');
     var myGameArea = new GameArea(ctx, canvas);
     var thing = new gameObject('thing', 300, 300, 'pacman.png', ctx, canvas);
+    myGameArea.clearCanvas();
+    myGameArea.buildWalls();
+    imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+    data = imageData.data;
+    thing.draw();
+    thing.update();
+
     canvas.addEventListener('mousemove', function(evt) {
       var mousePos = getMousePos(canvas, evt);
     }, false);
     document.addEventListener('keydown', function(e){
-        keyHandler(e, thing);
+        keyHandler(e, thing, myGameArea);
     }, false);
     renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas), 16);
 }
