@@ -79,6 +79,7 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.speedx = 0;
     this.angle = 0; //theta
     this.moveAngle = 0; //w
+    this.image = 'pacman.png';
     var d = new Date();
     this.tm = d.getTime();
     this.width = function(){
@@ -99,7 +100,7 @@ function gameObject(id, x, y, img, ctx, canvas){
       ctx.translate(this.x, this.y);
       //ctx.rotate(this.angle);
       var drawing = new Image();
-      drawing.src = img;
+      drawing.src = this.image;
       ctx.drawImage(drawing, -drawing.width/2,-drawing.height/2);
       ctx.restore();
     }
@@ -117,20 +118,22 @@ function gameObject(id, x, y, img, ctx, canvas){
 ///////////////////////drag and drop functions
 
 function allowDrop(ev) {
-    ev.preventDefault();
+    //ev.preventDefault();
+    //console.log('someone dropped something');
 }
 
 function drag_handler(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-    ev.dataTransfer.dropEffect = "copy";
+    //ev.dataTransfer.setData("text", ev.target.id);
+    //ev.dataTransfer.dropEffect = "copy";
     console.log(ev.target.id);
+    thing.image = ev.target.src;
 }
 
 function drop_handler(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-    console.log('someone dropped something');
+    //ev.preventDefault();
+    //var data = ev.dataTransfer.getData("text");
+    //ev.target.appendChild(document.getElementById(data));
+    //console.log('someone dropped something');
 }
 
 ////////////////////////////
@@ -182,11 +185,22 @@ function keyHandler(event, thing, myGameArea) { //Keyboard press detector
 
 }
 
+function checkOutMap(thing, myGameArea){
+
+  if(thing.x > 620){
+    thing.x = -20;
+
+  }else if(thing.x < -20){
+    thing.x = 620;
+  }
+}
+
 function render(myGameArea, thing, ctx, canvas){
 
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
     collisions(thing, myGameArea);
+    checkOutMap(thing, myGameArea);
     thing.draw();
     thing.update();
 
@@ -203,10 +217,10 @@ function getMousePos(canvas, evt) {
 
 function startGame() {
 
-    var canvas = document.getElementById("canvas2D");
-    var ctx = canvas.getContext('2d');
-    var myGameArea = new GameArea(ctx, canvas);
-    var thing = new gameObject('thing', 300, 300, 'pacman.png', ctx, canvas);
+    canvas = document.getElementById("canvas2D");
+    ctx = canvas.getContext('2d');
+    myGameArea = new GameArea(ctx, canvas);
+    thing = new gameObject('thing', 300, 300, 'pacman.png', ctx, canvas);
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
     imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
