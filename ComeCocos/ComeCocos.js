@@ -1,4 +1,6 @@
 
+collisionOffset = 15;
+
 function GameArea(ctx, canvas){
 
     this.canvas = canvas;
@@ -113,6 +115,7 @@ function gameObject(id, x, y, img, ctx, canvas){
         this.x = this.x + this.speedx
         this.y = this.y + this.speedy
     }
+
 }
 
 ///////////////////////drag and drop functions
@@ -200,12 +203,13 @@ function render(myGameArea, thing, ctx, canvas, game_balls){
     myGameArea.buildWalls();
     collisions(thing, myGameArea);
     checkOutMap(thing, myGameArea);
+    thing.draw();
+    thing.update();
     for(i = 0; i < game_balls.length; i++){
-        thing.draw();
-        thing.update();
         game_balls[i].draw();
+        game_balls[0].update();
     }
-    //game_balls[0].update();
+    checkBallsCollisions(thing, game_balls);
 
 
 }
@@ -221,15 +225,42 @@ function getMousePos(canvas, evt) {
 function genBalls(){
     var ballArray = [];
 
-    var ball = new gameObject('ball', 116, 113, 'ball.png', ctx, canvas);
+    var ball = new gameObject('bigBall1', 116, 113, 'bigball.png', ctx, canvas);
     ballArray.push(ball);
-    ball = new gameObject('ball', 485, 113, 'ball.png', ctx, canvas);
+    ball = new gameObject('bigBall2', 485, 113, 'bigball.png', ctx, canvas);
     ballArray.push(ball);
-    ball = new gameObject('ball', 485, 485, 'ball.png', ctx, canvas);
+    ball = new gameObject('bigBall3', 485, 485, 'bigball.png', ctx, canvas);
     ballArray.push(ball);
-    ball = new gameObject('ball', 116, 485, 'ball.png', ctx, canvas);
+    ball = new gameObject('bigBall4', 116, 485, 'bigball.png', ctx, canvas);
     ballArray.push(ball);
+    for(i = 0; i < 8; i++){
+        ball = new gameObject('bigBall4', 30+i*90, 300, 'ball.png', ctx, canvas);
+        ballArray.push(ball);
+    }
+
     return ballArray;
+}
+
+function checkBallsCollisions(thing, game_balls){
+    var dist = 0;
+    var radiusDist = 0;
+    var dist2 = 0;
+    var radiusDist2 = 0;
+
+    if(game_balls.length != 0){   //This is the loop for Spaceship - asteroids collisions
+      for(p=0; p < game_balls.length; p++) {
+        if(typeof game_balls[p] != "undefined"){
+          dist = Math.sqrt(Math.pow(thing.x - game_balls[p].x, 2) + Math.pow(thing.y - game_balls[p].y, 2));
+          radiusDist = thing.height()/2 + game_balls[p].height()/2;
+          if(dist < radiusDist){
+            console.log("COLLISION: " + thing.id + " " + "WITH: " + game_balls[p].id);
+            game_balls.splice(p, 1);
+            //lifes = lifes-1;
+          }
+        }
+      }
+    }
+
 }
 
 function startGame() {
@@ -248,7 +279,7 @@ function startGame() {
 
     canvas.addEventListener('mousemove', function(evt) {
       var mousePos = getMousePos(canvas, evt);
-      console.log(mousePos);
+      //console.log(mousePos);
     }, false);
 
     document.addEventListener('keydown', function(e){
