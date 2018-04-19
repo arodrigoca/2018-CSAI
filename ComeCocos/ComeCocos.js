@@ -79,7 +79,7 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.speedx = 0;
     this.angle = 0; //theta
     this.moveAngle = 0; //w
-    this.image = 'pacman.png';
+    this.image = img;
     var d = new Date();
     this.tm = d.getTime();
     this.width = function(){
@@ -194,14 +194,18 @@ function checkOutMap(thing, myGameArea){
   }
 }
 
-function render(myGameArea, thing, ctx, canvas){
+function render(myGameArea, thing, ctx, canvas, game_balls){
 
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
     collisions(thing, myGameArea);
     checkOutMap(thing, myGameArea);
-    thing.draw();
-    thing.update();
+    for(i = 0; i < game_balls.length; i++){
+        thing.draw();
+        thing.update();
+        game_balls[i].draw();
+    }
+    //game_balls[0].update();
 
 
 }
@@ -214,12 +218,27 @@ function getMousePos(canvas, evt) {
         };
 }
 
+function genBalls(){
+    var ballArray = [];
+
+    var ball = new gameObject('ball', 116, 113, 'ball.png', ctx, canvas);
+    ballArray.push(ball);
+    ball = new gameObject('ball', 485, 113, 'ball.png', ctx, canvas);
+    ballArray.push(ball);
+    ball = new gameObject('ball', 485, 485, 'ball.png', ctx, canvas);
+    ballArray.push(ball);
+    ball = new gameObject('ball', 116, 485, 'ball.png', ctx, canvas);
+    ballArray.push(ball);
+    return ballArray;
+}
+
 function startGame() {
 
     canvas = document.getElementById("canvas2D");
     ctx = canvas.getContext('2d');
     myGameArea = new GameArea(ctx, canvas);
     thing = new gameObject('thing', 300, 300, 'pacman.png', ctx, canvas);
+    game_balls = genBalls();
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
     imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
@@ -229,9 +248,11 @@ function startGame() {
 
     canvas.addEventListener('mousemove', function(evt) {
       var mousePos = getMousePos(canvas, evt);
+      console.log(mousePos);
     }, false);
+
     document.addEventListener('keydown', function(e){
         keyHandler(e, thing, myGameArea);
     }, false);
-    renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas), 16);
+    renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas, game_balls), 16);
 }
