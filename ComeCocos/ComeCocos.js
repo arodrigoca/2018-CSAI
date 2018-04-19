@@ -82,7 +82,7 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.angle = 0; //theta
     this.moveAngle = 0; //w
     this.image = img;
-    this.score = 0;
+    this.score = -1;
     var d = new Date();
     this.tm = d.getTime();
     this.width = function(){
