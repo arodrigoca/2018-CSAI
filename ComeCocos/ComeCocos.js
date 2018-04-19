@@ -82,6 +82,7 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.angle = 0; //theta
     this.moveAngle = 0; //w
     this.image = img;
+    this.score = 0;
     var d = new Date();
     this.tm = d.getTime();
     this.width = function(){
@@ -234,7 +235,7 @@ function genBalls(){
     ball = new gameObject('bigBall4', 116, 485, 'bigball.png', ctx, canvas);
     ballArray.push(ball);
     for(i = 0; i < 8; i++){
-        ball = new gameObject('bigBall4', 30+i*90, 300, 'ball.png', ctx, canvas);
+        ball = new gameObject('smallBall', 30+i*90, 300, 'ball.png', ctx, canvas);
         ballArray.push(ball);
     }
 
@@ -247,7 +248,7 @@ function checkBallsCollisions(thing, game_balls){
     var dist2 = 0;
     var radiusDist2 = 0;
 
-    if(game_balls.length != 0){   //This is the loop for Spaceship - asteroids collisions
+    if(game_balls.length != 0){   //This is the loop for pacman - balls elements
       for(p=0; p < game_balls.length; p++) {
         if(typeof game_balls[p] != "undefined"){
           dist = Math.sqrt(Math.pow(thing.x - game_balls[p].x, 2) + Math.pow(thing.y - game_balls[p].y, 2));
@@ -255,6 +256,12 @@ function checkBallsCollisions(thing, game_balls){
           if(dist < radiusDist){
             console.log("COLLISION: " + thing.id + " " + "WITH: " + game_balls[p].id);
             game_balls.splice(p, 1);
+            if(game_balls[p].image == 'bigball.png'){
+                thing.score = thing.score+10;
+            }else{
+                thing.score = thing.score+1;
+            }
+            document.getElementById('score').innerHTML = 'Score: ' + thing.score;
             //lifes = lifes-1;
           }
         }
