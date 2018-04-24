@@ -82,7 +82,7 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.angle = 0; //theta
     this.moveAngle = 0; //w
     this.image = img;
-    this.score = -1;
+    this.score = 0;
     var d = new Date();
     this.tm = d.getTime();
     this.width = function(){
@@ -197,9 +197,16 @@ function checkOutMap(thing, myGameArea){
     thing.x = 620;
   }
 }
+function timer(){
+
+    time = time-1;
+    document.getElementById('timer').innerHTML = 'Timer: ' + time;
+
+}
 
 function render(myGameArea, thing, ctx, canvas, game_balls){
 
+    //timer();
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
     collisions(thing, myGameArea);
@@ -270,8 +277,28 @@ function checkBallsCollisions(thing, game_balls){
 
 }
 
-function startGame() {
+function startStop(){
+    var state = document.getElementById('button').innerHTML;
+    if(state == 'Stop'){
+        clearInterval(renderInterval);
+        document.getElementById('button').innerHTML = 'Start';
+    }else{
+        document.getElementById('button').innerHTML = 'Stop';
+        renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas, game_balls), 16);
+    }
+}
 
+function checkMaxScore(){
+    var maxScore = localStorage.getItem('maxScore');
+    if(maxScore == null){
+        console.log('degbo crear un maxScore');
+        localStorage.setItem('maxScore', thing.score);
+    }
+}
+
+function startGame() {
+    time = 60;
+    timerInterval = setInterval(timer, 1000);
     canvas = document.getElementById("canvas2D");
     ctx = canvas.getContext('2d');
     myGameArea = new GameArea(ctx, canvas);
@@ -283,7 +310,6 @@ function startGame() {
     data = imageData.data;
     thing.draw();
     thing.update();
-
     canvas.addEventListener('mousemove', function(evt) {
       var mousePos = getMousePos(canvas, evt);
       //console.log(mousePos);
@@ -293,4 +319,6 @@ function startGame() {
         keyHandler(e, thing, myGameArea);
     }, false);
     renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas, game_balls), 16);
+    checkMaxScore();
+    console.log(localStorage.getItem('maxScore'));
 }

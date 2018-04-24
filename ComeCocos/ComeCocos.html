@@ -7,7 +7,10 @@
     </head>
     <body onload='startGame()'>
             <h1 id='header1'>Jurassic Pac-Man</h1>
-            <h2 id='score'>Score: </h2>
+            <h2 id='score' class='score'>Score: </h2>
+            <h2 id='maxScore' class='score'>Max Score: </h2>
+            <button id='button' onclick='startStop()'>Stop</button>
+            <p id='timer'>Timer: 60</p>
             <script src='ComeCocos.js'></script>
             <canvas id="canvas2D" ondrop="drop_handler(event)" ondragover="allowDrop(event)"></canvas>
             <audio loop autoplay src="theme.mp3">
