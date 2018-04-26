@@ -198,15 +198,36 @@ function checkOutMap(thing, myGameArea){
   }
 }
 function timer(){
+    if(time <= 0){
+        clearInterval(timerInterval);
+        clearInterval(renderInterval);
+        alert('Time is over!');
+        var finalScore = thing.score + time;
+        alert('Your final score is: ' + finalScore);
+    }else{
+        time = time-1;
+        document.getElementById('timer').innerHTML = 'Timer: ' + time;
+    }
 
-    time = time-1;
-    document.getElementById('timer').innerHTML = 'Timer: ' + time;
+}
 
+function checkEnemiesMove(game_balls){
+
+    for(i = 0; i < game_balls.length; i++){
+        if(game_balls[i].id == 'enemy1'){
+            if(game_balls[i].x >= 550){
+                game_balls[i].speedx = -2;
+
+            }else if(game_balls[i].x <= 35){
+                game_balls[i].speedx = 2;
+            }
+        }
+    }
 }
 
 function render(myGameArea, thing, ctx, canvas, game_balls){
 
-    //timer();
+    checkMaxScore();
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
     collisions(thing, myGameArea);
@@ -215,8 +236,10 @@ function render(myGameArea, thing, ctx, canvas, game_balls){
     thing.update();
     for(i = 0; i < game_balls.length; i++){
         game_balls[i].draw();
-        game_balls[0].update();
+        game_balls[i].update();
     }
+    checkEnemiesMove(game_balls);
+
     checkBallsCollisions(thing, game_balls);
 
 
@@ -241,10 +264,17 @@ function genBalls(){
     ballArray.push(ball);
     ball = new gameObject('bigBall4', 116, 485, 'bigball.png', ctx, canvas);
     ballArray.push(ball);
-    for(i = 0; i < 8; i++){
+    for(i = 0; i < 7; i++){
         ball = new gameObject('smallBall', 30+i*90, 300, 'ball.png', ctx, canvas);
         ballArray.push(ball);
     }
+    ball = new gameObject('enemy1', 100, 210, 'enemy1.png', ctx, canvas);
+    ball.speedx = 2;
+    ballArray.push(ball);
+
+    ball = new gameObject('enemy1', 100, 395, 'enemy1.png', ctx, canvas);
+    ball.speedx = 2;
+    ballArray.push(ball);
 
     return ballArray;
 }
@@ -262,12 +292,12 @@ function checkBallsCollisions(thing, game_balls){
           radiusDist = thing.height()/2 + game_balls[p].height()/2;
           if(dist < radiusDist){
             console.log("COLLISION: " + thing.id + " " + "WITH: " + game_balls[p].id);
-            game_balls.splice(p, 1);
             if(game_balls[p].image == 'bigball.png'){
                 thing.score = thing.score+10;
             }else{
                 thing.score = thing.score+1;
             }
+            game_balls.splice(p, 1);
             document.getElementById('score').innerHTML = 'Score: ' + thing.score;
             //lifes = lifes-1;
           }
@@ -281,28 +311,40 @@ function startStop(){
     var state = document.getElementById('button').innerHTML;
     if(state == 'Stop'){
         clearInterval(renderInterval);
+        clearInterval(timerInterval);
         document.getElementById('button').innerHTML = 'Start';
     }else{
         document.getElementById('button').innerHTML = 'Stop';
         renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas, game_balls), 16);
+        timerInterval = setInterval(timer, 1000);
     }
 }
 
 function checkMaxScore(){
+
     var maxScore = localStorage.getItem('maxScore');
+    //console.log(maxScore);
     if(maxScore == null){
-        console.log('degbo crear un maxScore');
+        //console.log('degbo crear un maxScore');
         localStorage.setItem('maxScore', thing.score);
+
+    }else if(maxScore < thing.score){
+        localStorage.setItem('maxScore', thing.score);
+        //console.log('max score achieved!');
+    }else{
+        document.getElementById('maxScore').innerHTML = 'Max Score: ' + maxScore;
     }
 }
 
 function startGame() {
+    maxScore = localStorage.getItem('maxScore');
     time = 60;
     timerInterval = setInterval(timer, 1000);
     canvas = document.getElementById("canvas2D");
     ctx = canvas.getContext('2d');
     myGameArea = new GameArea(ctx, canvas);
     thing = new gameObject('thing', 300, 300, 'pacman.png', ctx, canvas);
+    checkMaxScore();
     game_balls = genBalls();
     myGameArea.clearCanvas();
     myGameArea.buildWalls();
@@ -319,6 +361,4 @@ function startGame() {
         keyHandler(e, thing, myGameArea);
     }, false);
     renderInterval = setInterval(render.bind(null, myGameArea, thing, ctx, canvas, game_balls), 16);
-    checkMaxScore();
-    console.log(localStorage.getItem('maxScore'));
 }
