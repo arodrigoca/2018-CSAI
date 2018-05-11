@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Realizador de video</title>
+        <link rel="stylesheet" href="style.css">
+        <script src='realizador.js'></script>
+    </head>
+    <body onload='start()'>
+            <h1 id='header1'>Realizador de video</h1>
+            <h2 id='timer'>Current Play Time:</h2>
+            <table class='video'>
+              <tr>
+                <video class='video' id='mainVideo' loop autoplay controls height=300 width=600></video>
+              </tr>
+              <tr>
+                <th>
+                  <input id='startLoopTime'></input>
+                </th>
+                <th>
+                  <input id='endLoopTime'></input>
+                </th>
+                <th>
+                  <button id='changeLoop' onclick='setTimers(event)'>Change Loop Start</button>
+                </th>
+              </tr>
+              <tr>
+                <th>
+                  <video class='video' id='window1' loop muted autoplay onclick='changeSource(event)' src='camera1.mp4' height=150 width=250></video>
+                </th>
+                <th>
+                  <video class='video' id='window2' loop muted autoplay onclick='changeSource(event)' src='camera2.mp4' height=150 width=250></video>
+                </th>
+                <th>
+                  <video class='video' id='window3' loop muted autoplay onclick='changeSource(event)' src='camera3.mp4' height=150 width=250></video>
+                </th>
+                <th>
+                  <video class='video' id='window4' loop muted autoplay onclick='changeSource(event)' src='camera4.mp4' height=150 width=250></video>
+                </th>
+              </tr>
+            </table>
+    </body>
+</html>
