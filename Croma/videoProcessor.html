@@ -8,11 +8,14 @@
     </head>
     <body>
             <h1 id='header1'>Procesador de video</h1>
-            <video id='v' src='video.mp4' loop autoplay controls height=300 width=600></video>
+            <video id='v' src='video.webm' loop autoplay controls height=300 width=600></video>
             <canvas id='c'></canvas>
             <button onclick='changeButtonState(event)' id='gray' class='button'>Gray Scale</button>
             <button onclick='changeButtonState(event)' id='red' class='button'>Only Red Component</button>
             <button onclick='changeButtonState(event)' id='green' class='button'>Only Green Component</button>
             <button onclick='changeButtonState(event)' id='blue' class='button'>Only Blue Component</button>
+            <button onclick='changeButtonState(event)' id='chroma' class='button'>Chroma Effect</button>
+            <!--<button onclick='changeButtonState(event)' id='test' class='button'>Test</button>
+            -->
     </body>
 </html>
