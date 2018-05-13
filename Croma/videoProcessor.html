@@ -2,20 +2,35 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Procesador de video</title>
+        <title>Video Processor</title>
         <link rel="stylesheet" href="style.css">
         <script src='videoProcessor.js'></script>
     </head>
     <body>
-            <h1 id='header1'>Procesador de video</h1>
+            <h1 id='header1'>Video Processor</h1>
             <video id='v' src='video.webm' loop autoplay controls height=300 width=600></video>
             <canvas id='c'></canvas>
+            <br>
+            <button onclick='changeButtonState(event)' id='org' class='button'>Original</button>
             <button onclick='changeButtonState(event)' id='gray' class='button'>Gray Scale</button>
             <button onclick='changeButtonState(event)' id='red' class='button'>Only Red Component</button>
             <button onclick='changeButtonState(event)' id='green' class='button'>Only Green Component</button>
             <button onclick='changeButtonState(event)' id='blue' class='button'>Only Blue Component</button>
             <button onclick='changeButtonState(event)' id='chroma' class='button'>Chroma Effect</button>
-            <!--<button onclick='changeButtonState(event)' id='test' class='button'>Test</button>
-            -->
+            <button onclick='changeButtonState(event)' id='hsi' class='button'>To HSI</button>
+            <p>(Only for original mode) Select colour factor between 0 and 1</p>
+            <form onsubmit="storage()" autocomplete="off">
+              R: <br>
+              <input type='text' id='redComp'>
+              <br>
+              G: <br>
+              <input type='text' id='greenComp'>
+              <br>
+              B: <br>
+              <input type='text' id='blueComp'>
+              <br><br>
+              <input type='submit' value='submit'>
+            </form>
+            <button onclick="resetFactor()">reset</button>
     </body>
 </html>
