@@ -3,6 +3,8 @@ function videoTimers(){
   this.loopStart = 0;
   this.loopEnd = Infinity;
   this.videoID;
+  this.times = Infinity;
+  this.currentTimes = Infinity;
 }
 
 function changeSound(event){
@@ -31,12 +33,12 @@ function changeSource(event){
 
 function checkVideoTime(){
   var current = document.getElementById('timer');
-  //console.log(current);
-  document.getElementById('timer').innerHTML = 'Current Play Time: ' + video.currentTime
-  if(video.currentTime >= timer.loopEnd){
+  document.getElementById('timer').innerHTML = 'Current Play Time: ' + video.currentTime;
+  console.log(timer.times);
+  console.log(timer.currentTimes);
+  if(video.currentTime >= timer.loopEnd && timer.currentTimes < timer.times){
     video.currentTime = timer.loopStart;
-    console.log('stop!');
-
+    timer.currentTimes = timer.currentTimes + 1;
   }
 }
 
@@ -44,16 +46,21 @@ function setTimers(event){
 
   var start = document.getElementById('startLoopTime').value;
   var end = document.getElementById('endLoopTime').value;
+  var repeat = document.getElementById('loopTimes').value;
   if(event.target.id == 'changeLoop' && start != '' && end != '' && start < end){
     //console.log('cambiando valores!');
     video.currentTime = start;
     timer.loopStart = document.getElementById('startLoopTime').value;
     timer.loopEnd = document.getElementById('endLoopTime').value;
+    timer.currentTimes = 0;
   }else if(event.target.id == 'changeLoop' && start == '' && end == ''){
     timer.loopStart = 0;
     timer.loopEnd = Infinity;
     video.currentTime = document.getElementById(timer.videoID).currentTime;
 
+  }else if(event.target.id == 'changeTimes' && repeat != ''){
+    timer.times = repeat;
+    timer.currentTimes = 0;
   }
 }
 

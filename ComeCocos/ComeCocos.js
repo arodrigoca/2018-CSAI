@@ -83,6 +83,7 @@ function gameObject(id, x, y, img, ctx, canvas){
     this.moveAngle = 0; //w
     this.image = img;
     this.score = 0;
+    this.lifes = 2;
     var d = new Date();
     this.tm = d.getTime();
     this.width = function(){
@@ -241,6 +242,19 @@ function render(myGameArea, thing, ctx, canvas, game_balls){
     checkEnemiesMove(game_balls);
 
     checkBallsCollisions(thing, game_balls);
+    if(thing.lifes == 0){
+      clearInterval(timerInterval);
+      clearInterval(renderInterval);
+      alert('Game over!');
+      var finalScore = thing.score + time;
+      alert('Your final score is: ' + finalScore);
+    }else if(thing.score >= 47){
+      clearInterval(timerInterval);
+      clearInterval(renderInterval);
+      alert('You Won!!');
+      var finalScore = thing.score + time;
+      alert('Your final score is: ' + finalScore);
+    }
 
 
 }
@@ -294,12 +308,13 @@ function checkBallsCollisions(thing, game_balls){
             console.log("COLLISION: " + thing.id + " " + "WITH: " + game_balls[p].id);
             if(game_balls[p].image == 'bigball.png'){
                 thing.score = thing.score+10;
-            }else{
+            }else if(game_balls[p].image == 'ball.png'){
                 thing.score = thing.score+1;
+            }else{
+                thing.lifes = thing.lifes-1;
             }
             game_balls.splice(p, 1);
             document.getElementById('score').innerHTML = 'Score: ' + thing.score;
-            //lifes = lifes-1;
           }
         }
       }
@@ -338,7 +353,7 @@ function checkMaxScore(){
 
 function startGame() {
     maxScore = localStorage.getItem('maxScore');
-    time = 60;
+    time = 30;
     timerInterval = setInterval(timer, 1000);
     canvas = document.getElementById("canvas2D");
     ctx = canvas.getContext('2d');
